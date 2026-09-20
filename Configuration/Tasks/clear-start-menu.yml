@@ -1,0 +1,12 @@
+---
+title: Clear Start Menu
+description: Cleans ghosts of removed AppX packages from the Start Menu (Atlas OS)
+actions:
+  # Must be killed so tile caches can be dropped and rebuilt on next start
+  - !taskKill: {name: 'StartMenuExperienceHost', errorAction: ignore}
+  - !powerShell:
+    command: '.\Clear-StartMenu.ps1'
+    exeDir: true
+    wait: true
+    runas: currentUserElevated
+  - !appx: {operation: clearCache, name: 'Microsoft.Windows.StartMenuExperienceHost*'}
