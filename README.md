@@ -12,9 +12,9 @@
 ![ReviOS](https://img.shields.io/badge/ReviOS-5%25-E74C3C)
 ![wtweaks](https://img.shields.io/badge/wtweaks-8%25-2ECC71)
 
-> The best tweaks, without going overboard.
-
 </div>
+
+> The best tweaks, without going overboard.
 
 An [AME Wizard](https://amelabs.net) playbook — 33 tweaks from **Atlas OS 0.4.1**, 2 from the **ReviOS playbook** and 3 original wtweaks tweaks: QoL, debloat and system hardening in two variants, full and lite. Just apply and enjoy.
 
