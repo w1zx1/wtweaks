@@ -2,10 +2,7 @@
 title: wtweaks
 description: The best tweaks, without going overboard
 actions:
-  - !writeStatus: {status: 'Applying wtweaks'}
-
   # Debloat
-  - !writeStatus: {status: 'Running debloat tweaks'}
   - !writeStatus: {status: 'Removing UWP apps'}
   - !task: {path: 'Tasks/remove-uwp-apps.yml'}
   - !writeStatus: {status: 'Clearing Start Menu'}
