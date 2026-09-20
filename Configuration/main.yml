@@ -5,7 +5,6 @@ actions:
   # Debloat
   - !writeStatus: {status: 'Removing UWP apps'}
   - !task: {path: 'Tasks/remove-uwp-apps.yml'}
-  - !writeStatus: {status: 'Clearing Start Menu'}
   - !task: {path: 'Tasks/clear-start-menu.yml'}
   - !writeStatus: {status: 'Removing Microsoft Edge'}
   - !task: {path: 'Tasks/remove-edge.yml'}
