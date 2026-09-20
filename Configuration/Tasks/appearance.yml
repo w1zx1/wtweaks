@@ -2,12 +2,13 @@
 title: Wallpaper and Dark Theme
 description: Sets Atlas wallpaper, lockscreen image, dark mode and accent color (Atlas OS)
 actions:
-  # Copy wallpapers to a permanent location (the Executables folder is temporary)
+  # Copy wallpapers and theme to permanent locations (the Executables folder is temporary)
   - !powerShell:
     command: |
       $dst = """$([Environment]::GetFolderPath('Windows'))\Web\Wallpaper\wtweaks"""
       New-Item -Path $dst -ItemType Directory -Force | Out-Null
       Copy-Item -Path '.\Wallpapers\*' -Destination $dst -Force
+      Copy-Item -Path '.\Themes\*' -Destination """$([Environment]::GetFolderPath('Windows'))\Resources\Themes""" -Force -Recurse
     exeDir: true
     wait: true
 
@@ -35,25 +36,20 @@ actions:
     data: '4289220938'
     type: REG_DWORD
 
-  # Apply desktop wallpaper immediately (Fill)
+  # Apply the wtweaks dark theme (wallpaper, dark mode, accent) via the official
+  # theme API so it takes effect immediately, without a reboot (Atlas OS)
   - !powerShell:
-    command: |
-      $img = """$([Environment]::GetFolderPath('Windows'))\Web\Wallpaper\wtweaks\atlas-dark.png"""
-      if (!(Test-Path $img)) { throw "Wallpaper not found: $img" }
-      Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name Wallpaper -Value $img
-      Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name WallpaperStyle -Value '10'
-      Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name TileWallpaper -Value '0'
-      Add-Type -TypeDefinition @'
-      using System;
-      using System.Runtime.InteropServices;
-      public class Wallpaper {
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-      }
-      '@
-      [Wallpaper]::SystemParametersInfo(20, 0, $img, 3) | Out-Null
-    runas: currentUserElevated
+    command: '.\Set-Theme.ps1 -Path """$([Environment]::GetFolderPath(''Windows''))\Resources\Themes\atlas-dark.theme"""'
+    exeDir: true
     wait: true
+    runas: currentUserElevated
+
+  # Set wtweaks theme as default for new users (Atlas OS)
+  - !registryValue:
+    path: 'HKCU\Software\Policies\Microsoft\Windows\Personalization'
+    value: 'ThemeFile'
+    data: '%windir%\Resources\Themes\atlas-dark.theme'
+    type: REG_SZ
 
   # Lockscreen: disable overlays and spotlight rotation (Atlas OS)
   - !registryValue:
