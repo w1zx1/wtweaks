@@ -1,0 +1,5 @@
+---
+title: Remove OneDrive
+description: Removes OneDrive (Atlas OS)
+actions:
+  - !run: {exeDir: true, exe: 'ONED.cmd'}

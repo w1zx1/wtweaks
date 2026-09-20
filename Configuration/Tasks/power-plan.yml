@@ -1,0 +1,24 @@
+---
+title: Atlas Power Scheme
+description: Applies Atlas power scheme for optimal latency and performance (Atlas OS)
+actions:
+  - !powerShell:
+    command: '.\Power\DisablePowerSaving.ps1 -Silent'
+    exeDir: true
+    wait: true
+    runas: currentUserElevated
+  # wtweaks softening on top of the Atlas scheme (script above stays 1:1):
+  # CPU min 15% instead of 100%, display off after 15 min instead of never
+  - !powerShell:
+    command: |
+      powercfg /setacvalueindex scheme_current 54533251-82be-4824-96c1-47b60b740d00 893dee8e-2bef-41e0-89c6-b55d0929964c 15
+      powercfg /setacvalueindex scheme_current 7516b95f-f776-4464-8c53-06167f40cc99 3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e 900
+      powercfg /setactive scheme_current
+    wait: true
+    runas: currentUserElevated
+    # Disable Fast Startup
+  - !registryValue:
+    path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power'
+    value: 'HiberbootEnabled'
+    data: '0'
+    type: REG_DWORD

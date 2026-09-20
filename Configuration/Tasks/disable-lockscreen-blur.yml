@@ -1,0 +1,9 @@
+---
+title: Disable Lockscreen Blur
+description: Disables acrylic blur on the logon/lockscreen background
+actions:
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\System'
+    value: 'DisableAcrylicBackgroundOnLogon'
+    data: '1'
+    type: REG_DWORD

@@ -1,0 +1,10 @@
+---
+title: Install Visual C++ Runtimes
+description: Installs all Visual C++ Runtimes 2005-2022 x86/x64 (Atlas OS)
+actions:
+  - !powerShell:
+    command: '.\Install-VCRedist.ps1'
+    exeDir: true
+    wait: true
+    weight: 150
+    runas: currentUserElevated

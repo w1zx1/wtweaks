@@ -1,0 +1,9 @@
+---
+title: Disable WU Auto-Updates
+description: Disables Windows Update from automatically downloading updates, notifies instead (Atlas OS)
+actions:
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
+    value: 'AUOptions'
+    data: '2'
+    type: REG_DWORD

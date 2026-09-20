@@ -1,0 +1,39 @@
+---
+title: Pause Windows Updates until 2077
+description: Pauses Feature, Quality and all updates until 2077-01-01 (ReviOS)
+actions:
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+    value: 'FlightSettingsMaxPauseDays'
+    data: '18400'
+    type: REG_DWORD
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+    value: 'PauseFeatureUpdatesStartTime'
+    data: '2026-09-19T00:00:00Z'
+    type: REG_SZ
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+    value: 'PauseFeatureUpdatesEndTime'
+    data: '2077-01-01T00:00:00Z'
+    type: REG_SZ
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+    value: 'PauseQualityUpdatesStartTime'
+    data: '2026-09-19T00:00:00Z'
+    type: REG_SZ
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+    value: 'PauseQualityUpdatesEndTime'
+    data: '2077-01-01T00:00:00Z'
+    type: REG_SZ
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+    value: 'PauseUpdatesStartTime'
+    data: '2026-09-19T00:00:00Z'
+    type: REG_SZ
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+    value: 'PauseUpdatesExpiryTime'
+    data: '2077-01-01T00:00:00Z'
+    type: REG_SZ

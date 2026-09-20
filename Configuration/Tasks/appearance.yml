@@ -1,0 +1,81 @@
+---
+title: Wallpaper and Dark Theme
+description: Sets Atlas wallpaper, lockscreen image, dark mode and accent color (Atlas OS)
+actions:
+  # Copy wallpapers to a permanent location (the Executables folder is temporary)
+  - !powerShell:
+    command: |
+      $dst = """$([Environment]::GetFolderPath('Windows'))\Web\Wallpaper\wtweaks"""
+      New-Item -Path $dst -ItemType Directory -Force | Out-Null
+      Copy-Item -Path '.\Wallpapers\*' -Destination $dst -Force
+    exeDir: true
+    wait: true
+
+  # Dark mode for apps and system (atlas-v0.4.x-dark.theme uses SystemMode/AppMode=Dark)
+  - !registryValue:
+    path: 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize'
+    value: 'AppsUseLightTheme'
+    data: '0'
+    type: REG_DWORD
+  - !registryValue:
+    path: 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize'
+    value: 'SystemUsesLightTheme'
+    data: '0'
+    type: REG_DWORD
+
+  # Atlas accent color (#4A51A8, ColorizationColor from atlas-v0.4.x-dark.theme)
+  - !registryValue:
+    path: 'HKCU\SOFTWARE\Microsoft\Windows\DWM'
+    value: 'ColorizationColor'
+    data: '3293204904'
+    type: REG_DWORD
+  - !registryValue:
+    path: 'HKCU\SOFTWARE\Microsoft\Windows\DWM'
+    value: 'AccentColor'
+    data: '4289220938'
+    type: REG_DWORD
+
+  # Apply desktop wallpaper immediately (Fill)
+  - !powerShell:
+    command: |
+      $img = """$([Environment]::GetFolderPath('Windows'))\Web\Wallpaper\wtweaks\atlas-dark.png"""
+      if (!(Test-Path $img)) { throw "Wallpaper not found: $img" }
+      Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name Wallpaper -Value $img
+      Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name WallpaperStyle -Value '10'
+      Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name TileWallpaper -Value '0'
+      Add-Type -TypeDefinition @'
+      using System;
+      using System.Runtime.InteropServices;
+      public class Wallpaper {
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+      }
+      '@
+      [Wallpaper]::SystemParametersInfo(20, 0, $img, 3) | Out-Null
+    runas: currentUserElevated
+    wait: true
+
+  # Lockscreen: disable overlays and spotlight rotation (Atlas OS)
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization'
+    value: 'LockScreenOverlaysDisabled'
+    data: '1'
+    type: REG_DWORD
+  - !registryValue:
+    path: 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager'
+    value: 'RotatingLockScreenEnabled'
+    data: '0'
+    type: REG_DWORD
+  - !powerShell:
+    command: |
+      foreach ($userKey in (Get-ChildItem "HKLM:SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\Creative").PsPath) {
+          Set-ItemProperty -Path $userKey -Name 'RotatingLockScreenEnabled' -Type DWORD -Value 0 -Force
+      }
+    wait: true
+
+  # Set lockscreen image via WinRT API, must run as the user (not SYSTEM)
+  - !powerShell:
+    command: '.\Set-LockscreenImage.ps1 -Path """$([Environment]::GetFolderPath('Windows'))\Web\Wallpaper\wtweaks\lockscreen.png"""'
+    exeDir: true
+    wait: true
+    runas: currentUserElevated

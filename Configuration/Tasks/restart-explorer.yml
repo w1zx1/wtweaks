@@ -1,0 +1,6 @@
+---
+title: Restart Explorer
+description: Restart Explorer to apply tweaks immediately (Atlas OS)
+actions:
+  - !taskKill: {name: 'explorer'}
+  - !run: {exe: 'explorer.exe', runas: 'currentUser', wait: false}

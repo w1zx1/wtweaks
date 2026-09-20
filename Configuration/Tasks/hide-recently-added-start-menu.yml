@@ -1,0 +1,9 @@
+---
+title: Hide Recently Added Apps from Start Menu
+description: Remove 'Recently added' list from the Start Menu (Atlas OS)
+actions:
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer'
+    value: 'HideRecentlyAddedApps'
+    data: '1'
+    type: REG_DWORD

@@ -1,0 +1,26 @@
+---
+title: Disable Defender
+description: Disables Windows Defender via policies and services when the defender-disable option is chosen (Atlas OS approach adapted, no component removal)
+actions:
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender', value: 'DisableAntiSpyware', data: '1', type: REG_DWORD, option: 'defender-disable'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender', value: 'DisableAntiVirus', data: '1', type: REG_DWORD, option: 'defender-disable'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection', value: 'DisableRealtimeMonitoring', data: '1', type: REG_DWORD, option: 'defender-disable'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection', value: 'DisableBehaviorMonitoring', data: '1', type: REG_DWORD, option: 'defender-disable'}
+  - !service: {name: 'WinDefend', operation: change, startup: 4, option: 'defender-disable'}
+  - !service: {name: 'WdNisSvc', operation: change, startup: 4, option: 'defender-disable'}
+  - !service: {name: 'Sense', operation: change, startup: 4, option: 'defender-disable'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run', value: 'SecurityHealth', operation: delete, option: 'defender-disable'}
+  # Security Center nags die with its service (ReviOS bundle)
+  - !service: {name: 'wscsvc', operation: change, startup: 4, option: 'defender-disable'}
+  # SmartScreen off everywhere (ReviOS bundle)
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\System', value: 'EnableSmartScreen', data: '0', type: REG_DWORD, option: 'defender-disable'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer', value: 'SmartScreenEnabled', data: 'Off', type: REG_SZ, option: 'defender-disable'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost', value: 'EnableWebContentEvaluation', data: '0', type: REG_DWORD, option: 'defender-disable'}
+  # Defender scheduled tasks
+  - !scheduledTask: {path: '\Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan', operation: disable, option: 'defender-disable'}
+  - !scheduledTask: {path: '\Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance', operation: disable, option: 'defender-disable'}
+  - !scheduledTask: {path: '\Microsoft\Windows\Windows Defender\Windows Defender Cleanup', operation: disable, option: 'defender-disable'}
+  - !scheduledTask: {path: '\Microsoft\Windows\Windows Defender\Windows Defender Verification', operation: disable, option: 'defender-disable'}
+  # PUA protection and SmartScreen threat service (ReviOS bundle)
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows Defender', value: 'PUAProtection', data: '0', type: REG_DWORD, option: 'defender-disable'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WTDS\Components', value: 'ServiceEnabled', data: '0', type: REG_DWORD, option: 'defender-disable'}

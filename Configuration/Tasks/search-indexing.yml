@@ -1,0 +1,8 @@
+---
+title: Minimal Search Indexing
+description: Indexes only the Start Menu so search shows apps, not user files (Atlas OS)
+actions:
+  - !cmd:
+    command: '"SearchIndexing\Minimal-Search-Indexing.cmd" /silent'
+    exeDir: true
+    wait: true

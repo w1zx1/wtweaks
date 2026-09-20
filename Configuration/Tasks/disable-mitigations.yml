@@ -1,0 +1,8 @@
+---
+title: Disable Mitigations
+description: Disables CPU and system mitigations (Spectre/Meltdown, SEHOP, CFG, DEP, filesystem) for performance, needs reboot (Atlas OS)
+actions:
+  - !cmd:
+    command: 'Disable-Mitigations.cmd /silent'
+    exeDir: true
+    wait: true

@@ -1,0 +1,9 @@
+---
+title: Debloat Send-To Context Menu
+description: Removes commonly un-used items from the Send-To context menu in Explorer (Atlas OS)
+actions:
+  - !powerShell:
+    command: '.\Debloat-SendTo.ps1 -Disable @(''Documents'', ''Mail Recipient'', ''Fax recipient'', ''Bluetooth'')'
+    exeDir: true
+    wait: true
+    runas: currentUserElevated

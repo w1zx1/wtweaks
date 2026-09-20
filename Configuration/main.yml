@@ -1,0 +1,71 @@
+---
+title: wtweaks
+description: The best tweaks, without going overboard
+actions:
+  - !writeStatus: {status: 'Applying wtweaks'}
+
+  # Debloat
+  - !writeStatus: {status: 'Running debloat tweaks'}
+  - !writeStatus: {status: 'Removing UWP apps'}
+  - !task: {path: 'Tasks/remove-uwp-apps.yml'}
+  - !writeStatus: {status: 'Removing Microsoft Edge'}
+  - !task: {path: 'Tasks/remove-edge.yml'}
+  - !task: {path: 'Tasks/remove-onedrive.yml'}
+  - !task: {path: 'Tasks/disable-content-delivery.yml'}
+  - !writeStatus: {status: 'Installing Firefox', option: 'browser-firefox'}
+  - !writeStatus: {status: 'Installing Chrome', option: 'browser-chrome'}
+  - !task: {path: 'Tasks/install-browser.yml'}
+  - !writeStatus: {status: 'Installing Visual C++ Runtimes'}
+  - !task: {path: 'Tasks/install-vcredist.yml'}
+  - !writeStatus: {status: 'Updating PSReadLine'}
+  - !task: {path: 'Tasks/update-psreadline.yml'}
+
+  # Performance
+  - !writeStatus: {status: 'Running performance tweaks'}
+  - !task: {path: 'Tasks/disable-game-bar.yml'}
+  - !task: {path: 'Tasks/disable-background-apps.yml'}
+  - !task: {path: 'Tasks/disable-services.yml'}
+  - !writeStatus: {status: 'Configuring search indexing'}
+  - !task: {path: 'Tasks/search-indexing.yml'}
+
+  # Privacy
+  - !writeStatus: {status: 'Running privacy tweaks'}
+  - !task: {path: 'Tasks/disable-bing-search.yml'}
+
+  # QoL
+  - !writeStatus: {status: 'Running QoL tweaks'}
+  - !task: {path: 'Tasks/hide-folders-this-pc.yml'}
+  - !task: {path: 'Tasks/removable-drives-only-this-pc.yml'}
+  - !task: {path: 'Tasks/disable-network-pane.yml'}
+  - !task: {path: 'Tasks/open-to-this-pc.yml'}
+  - !task: {path: 'Tasks/transfer-details.yml'}
+  - !task: {path: 'Tasks/sendto-debloat.yml'}
+  - !task: {path: 'Tasks/hide-frequently-used-items.yml'}
+  - !task: {path: 'Tasks/hide-recently-added-start-menu.yml'}
+  - !task: {path: 'Tasks/disable-start-recommendations.yml'}
+  - !task: {path: 'Tasks/disable-aero-shake.yml'}
+  - !task: {path: 'Tasks/disable-network-wizard.yml'}
+  - !task: {path: 'Tasks/disable-mouse-accel.yml'}
+  - !task: {path: 'Tasks/disable-menu-delay.yml'}
+  - !task: {path: 'Tasks/disable-startup-delay.yml'}
+  - !task: {path: 'Tasks/decrease-shutdown-time.yml'}
+  - !task: {path: 'Tasks/disable-auto-updates.yml'}
+  - !task: {path: 'Tasks/disable-delivery-optimization.yml'}
+  - !task: {path: 'Tasks/disable-store-auto-updates.yml'}
+  - !task: {path: 'Tasks/pin-windows-release.yml'}
+  - !task: {path: 'Tasks/pause-updates.yml'}
+  - !task: {path: 'Tasks/appearance.yml'}
+  - !task: {path: 'Tasks/disable-lockscreen-blur.yml'}
+  - !task: {path: 'Tasks/oem-info.yml'}
+
+  # Scripts
+  - !writeStatus: {status: 'Running scripts'}
+  - !task: {path: 'Tasks/power-plan.yml'}
+  - !task: {path: 'Tasks/disable-mitigations.yml'}
+
+  # Security
+  - !writeStatus: {status: 'Running security tweaks'}
+  - !task: {path: 'Tasks/disable-defender.yml'}
+
+  - !writeStatus: {status: 'Restarting Explorer'}
+  - !task: {path: 'Tasks/restart-explorer.yml'}

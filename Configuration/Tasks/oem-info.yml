@@ -1,0 +1,9 @@
+---
+title: wtweaks OEM Information
+description: Brands OEM information as wtweaks
+actions:
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation'
+    value: 'Model'
+    data: 'wtweaks'
+    type: REG_SZ

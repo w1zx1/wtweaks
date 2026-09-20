@@ -1,0 +1,8 @@
+---
+title: Update PSReadLine
+description: Updates the outdated built-in PSReadLine module on Windows 10
+actions:
+  - !powerShell:
+    command: "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser; Install-Module -Name PSReadLine -Scope CurrentUser -Force -SkipPublisherCheck -AllowClobber"
+    wait: true
+    runas: currentUserElevated

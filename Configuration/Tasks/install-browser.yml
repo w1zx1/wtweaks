@@ -1,0 +1,18 @@
+---
+title: Install Browser
+description: Installs the browser selected on the options page (Atlas OS)
+actions:
+  - !powerShell:
+    command: '.\Install-Browser.ps1 -Firefox'
+    exeDir: true
+    wait: true
+    weight: 120
+    option: 'browser-firefox'
+    runas: currentUserElevated
+  - !powerShell:
+    command: '.\Install-Browser.ps1 -Chrome'
+    exeDir: true
+    wait: true
+    weight: 120
+    option: 'browser-chrome'
+    runas: currentUserElevated
