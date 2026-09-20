@@ -6,7 +6,11 @@ $msiArgs = "/qn /quiet /norestart ALLUSERS=1 REBOOT=ReallySuppress"
 
 # Create temporary directory
 function Remove-TempDirectory { Pop-Location; Remove-Item -Path $tempDir -Force -Recurse -EA 0 }
-$tempDir = Join-Path -Path $(Get-SystemDrive) -ChildPath $([System.Guid]::NewGuid())
+# NOTE (wtweaks): Atlas provides Get-SystemDrive via its modules, which are not
+# vendored here. $env:SystemDrive is the stock equivalent (e.g. 'C:').
+# A relative temp dir breaks the 2005 extractor ('/t:' needs an absolute path),
+# so an absolute path here is required, not just nice to have.
+$tempDir = Join-Path -Path $env:SystemDrive -ChildPath $([System.Guid]::NewGuid())
 New-Item $tempDir -ItemType Directory -Force | Out-Null
 Push-Location $tempDir
 
@@ -53,7 +57,7 @@ foreach ($a in $vcredists.GetEnumerator()) {
 			Write-Output "Failed to extract MSI for $vcName, not installing."
 		} else {
 			$msiPaths | ForEach-Object {
-				Start-Process -FilePath "msiexec.exe" -ArgumentList "/log `"$msiDir\logfile.log`" /i `"$_`" $msiArgs" -WindowStyle Hidden
+				Start-Process -FilePath "msiexec.exe" -ArgumentList "/log `"$msiDir\logfile.log`" /i `"$_`" $msiArgs" -Wait -WindowStyle Hidden
 			}
 		}
 	} else {
