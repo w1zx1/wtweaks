@@ -21,12 +21,12 @@ actions:
 
   # AppX Microsoft Teams
   # Seems legacy - not in 23H2
-  - !taskKill: {name: 'msteams*', ignoreErrors: true}
+  - !taskKill: {name: 'msteams*', errorAction: ignore}
   - !appx: {name: 'MicrosoftTeams*', type: family}
   - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications', value: 'ConfigureChatAutoInstall', data: '0', type: REG_DWORD}
 
   # New AppX Teams in 24H2
-  - !taskKill: {name: 'ms-teams*', ignoreErrors: true}
+  - !taskKill: {name: 'ms-teams*', errorAction: ignore}
   - !appx: {name: 'MSTeams*', type: family}
   # 24H2 Copilot app
   - !appx: {name: 'Microsoft.Copilot*', type: family}
