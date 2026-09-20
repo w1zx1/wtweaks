@@ -75,7 +75,7 @@ actions:
 
   # Set lockscreen image via WinRT API, must run as the user (not SYSTEM)
   - !powerShell:
-    command: '.\Set-LockscreenImage.ps1 -Path """$([Environment]::GetFolderPath('Windows'))\Web\Wallpaper\wtweaks\lockscreen.png"""'
+    command: '.\Set-LockscreenImage.ps1 -Path """$([Environment]::GetFolderPath(''Windows''))\Web\Wallpaper\wtweaks\lockscreen.png"""'
     exeDir: true
     wait: true
     runas: currentUserElevated
