@@ -17,6 +17,7 @@ $removeList = @(
     'Clipchamp.Clipchamp',
     'Disney.37853FC22B2CE',
     'SpotifyAB.SpotifyMusic',
+    'A025C540.Yandex.Music', # Yandex Music (RU region preinstall)
     'Microsoft.549981C3F5F10', # Cortana
     'Microsoft.XboxApp', # Xbox Console Companion (deprecated)
     'microsoft.windowscommunicationsapps', # Mail and Calendar
