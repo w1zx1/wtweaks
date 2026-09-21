@@ -1,0 +1,9 @@
+---
+title: Hide Microsoft Store in Open With
+description: Removes "Look for an app in the Microsoft Store" from the Open With dialog
+actions:
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer'
+    value: 'NoUseStoreOpenWith'
+    data: '1'
+    type: REG_DWORD
