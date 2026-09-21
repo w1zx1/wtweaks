@@ -29,6 +29,7 @@ actions:
   - !task: {path: 'Tasks/disable-background-apps.yml'}
   - !task: {path: 'Tasks/disable-services.yml'}
   - !task: {path: 'Tasks/search-indexing.yml'}
+  - !task: {path: 'Tasks/disable-auto-folder-discovery.yml'}
   - !task: {path: 'Tasks/power-plan.yml'}
   - !task: {path: 'Tasks/disable-mitigations.yml'}
 
@@ -41,6 +42,7 @@ actions:
   - !task: {path: 'Tasks/transfer-details.yml'}
   - !task: {path: 'Tasks/sendto-debloat.yml'}
   - !task: {path: 'Tasks/hide-frequently-used-items.yml'}
+  - !task: {path: 'Tasks/show-files.yml'}
   - !task: {path: 'Tasks/hide-recently-added-start-menu.yml'}
   - !task: {path: 'Tasks/disable-start-recommendations.yml'}
   - !task: {path: 'Tasks/disable-scoobe.yml'}

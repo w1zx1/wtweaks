@@ -1,0 +1,14 @@
+---
+title: Disable Automatic Folder Discovery
+description: Improves performance in File Explorer by not automatically determining the folder 'type' (such as pictures) for each folder's content. (Atlas OS)
+actions:
+  # Atlas 0.4.1 applies this via a .reg that deletes the value (which is actually
+  # the revert), with this NotSpecified value left commented as
+  # "use this instead once AME fixes hives issue". NotSpecified is the documented
+  # disable value, and direct HKCU\Software\Classes writes work fine here
+  # (same as disable-network-pane.yml), so set it directly.
+  - !registryValue:
+    path: 'HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell'
+    value: 'FolderType'
+    data: 'NotSpecified'
+    type: REG_SZ
