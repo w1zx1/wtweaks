@@ -42,7 +42,9 @@ actions:
   - !task: {path: 'Tasks/transfer-details.yml'}
   - !task: {path: 'Tasks/sendto-debloat.yml'}
   - !task: {path: 'Tasks/hide-frequently-used-items.yml'}
+  - !task: {path: 'Tasks/pin-videos-to-home.yml'}
   - !task: {path: 'Tasks/show-files.yml'}
+  - !task: {path: 'Tasks/remove-shortcut-text.yml'}
   - !task: {path: 'Tasks/hide-recently-added-start-menu.yml'}
   - !task: {path: 'Tasks/disable-start-recommendations.yml'}
   - !task: {path: 'Tasks/disable-scoobe.yml'}

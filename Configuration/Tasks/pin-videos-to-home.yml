@@ -1,0 +1,14 @@
+---
+title: Pin Videos to Home
+description: After disabling recent files in Quick Access, Videos disappear. This pins them back. (Atlas OS, videos only)
+actions:
+  - !powerShell:
+    command: |
+      $o = new-object -com shell.application
+      $currentPins = $o.Namespace('shell:::{679f85cb-0220-4080-b29b-5540cc05aab6}').Items() | ForEach-Object { $_.Path }
+      $path = [Environment]::GetFolderPath('MyVideos')
+      if ($currentPins -notcontains $path) {
+          $o.Namespace($path).Self.InvokeVerb('pintohome')
+      }
+    runas: currentUser
+    wait: true
