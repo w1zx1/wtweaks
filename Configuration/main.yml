@@ -5,10 +5,11 @@ actions:
   # Debloat
   - !writeStatus: {status: 'Removing UWP apps'}
   - !task: {path: 'Tasks/remove-uwp-apps.yml'}
-  - !task: {path: 'Tasks/clear-start-menu.yml'}
   - !writeStatus: {status: 'Removing Microsoft Edge'}
   - !task: {path: 'Tasks/remove-edge.yml'}
   - !task: {path: 'Tasks/remove-onedrive.yml'}
+  - !writeStatus: {status: 'Clearing Start Menu'}
+  - !task: {path: 'Tasks/clear-start-menu.yml'}
   - !task: {path: 'Tasks/disable-content-delivery.yml'}
   - !writeStatus: {status: 'Installing Firefox', option: 'browser-firefox'}
   - !writeStatus: {status: 'Installing Chrome', option: 'browser-chrome'}
