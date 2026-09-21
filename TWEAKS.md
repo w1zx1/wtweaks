@@ -1,6 +1,6 @@
 # wtweaks — full tweak list
 
-Full (`wtweaks_0.1.0.apbx`) — 41 tasks in apply order. Lite (`wtweaks_0.1.0-lite.apbx`) — 25 tasks (QoL subset + Explorer restart).
+Full (`wtweaks_0.1.0.apbx`) — 45 tasks in apply order. Lite (`wtweaks_0.1.0-lite.apbx`) — 25 tasks (QoL subset + Explorer restart).
 
 Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 
@@ -8,14 +8,15 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 
 | Tweak (task file) | What it does | Source | Full | Lite |
 |---|---|---|---|---|
-| Remove UWP apps (`remove-uwp-apps.yml`) | Removes ~35 preinstalled AppX families (Teams, Copilot, Clipchamp, Disney, Spotify, Cortana, Xbox App, Mail/Calendar, Paint, Get Started, Movies & TV, Family, Mixed Reality Portal, Dev Home, Weather/News, Outlook, Get Help, 3D Viewer, Office Hub, Solitaire, Sticky Notes, OneNote, People, Power Automate, Snipping-ish ScreenSketch, Skype, To Do, Alarms, Camera, Feedback Hub, Maps, Voice Recorder, Phone Link), blocks Chat auto-install, deprovisions against reinstall, clears AppX cache | Atlas OS | ✅ | ❌ |
-| Clear Start menu (`clear-start-menu.yml`) | Clears dead AppX tiles after debloat, restarts StartMenuExperienceHost | Atlas OS | ✅ | ❌ |
+| Remove UWP apps (`remove-uwp-apps.yml`) | Removes ~35 preinstalled AppX families for all users plus provisioned packages via `Remove-UwpApps.ps1` (Win11Debloat-style engine: single inventory, per-app jobs with timeout): Teams (legacy + new), Copilot, Clipchamp, Disney, Spotify, Yandex Music, Cortana, Xbox App, Mail/Calendar, Paint 3D, Tips, Movies & TV, Family, Mixed Reality Portal, Dev Home, Weather/News/Search, Outlook, Get Help, 3D Viewer, Office Hub, Solitaire, Sticky Notes, OneNote, People, Power Automate, Snipping-ish ScreenSketch, Skype, To Do, Alarms, Camera, Feedback Hub, Maps, Voice Recorder; blocks Chat auto-install, clears AppX cache | Atlas OS list + wtweaks engine | ✅ | ❌ |
 | Remove Edge (`remove-edge.yml`) | Uninstalls Edge via `RemoveEdge.ps1`, removes AppX + deprovision keys so it doesn't come back | Atlas OS | ✅ | ❌ |
 | Remove OneDrive (`remove-onedrive.yml`) | Uninstalls OneDrive via `ONED.cmd` | Atlas OS | ✅ | ❌ |
+| Clear Start menu (`clear-start-menu.yml`) | Applies an empty default tile layout and drops the tilegrid database (right-side tiles gone; app-list needs no extra cleanup since AllUsers removal takes it) | Atlas OS, trimmed | ✅ | ❌ |
 | Content Delivery off (`disable-content-delivery.yml`) | Disables Content Delivery Manager: suggested apps, Tips, ads, silent installs, preinstalled OEM apps, lockscreen overlay promos, Start account notifications | Atlas OS | ✅ | ✅ |
 | Browser install (`install-browser.yml`) | Installs the browser picked on the options page (Firefox default, or Chrome, or None) 🔘 | Atlas OS | 🔘 | ❌ |
 | Taskbar pins (`config-pins.yml`) | Resets taskbar pins to Explorer + chosen browser, unpins Mail/Copilot | Atlas OS | ✅ | ❌ |
-| Visual C++ Runtimes (`install-vcredist.yml`) | Installs VC++ 2005–2022 x86/x64 | Atlas OS | ✅ | ❌ |
+| Visual C++ Runtimes (`install-vcredist.yml`) | Installs VC++ 2005–2022 x86/x64, on by default but skippable via checkbox 🔘 | Atlas OS | 🔘 | ❌ |
+| PSReadLine updated (`update-psreadline.yml`) | Updates the outdated Win10 PSReadLine module (needs internet) | wtweaks | ✅ | ✅ |
 
 ## Performance
 
@@ -25,14 +26,10 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 | Background apps off (`disable-background-apps.yml`) | `GlobalUserDisabled = 1`, no UWP background activity | Atlas OS | ✅ | ❌ |
 | Services tuning (`disable-services.yml`) | Disables/manual 16 services: dam, GpuEnergyDrv, NetBT, Telemetry, DiagHub collector, WerSvc, DiagTrack, wisvc, PcaSvc, WDI hosts, tcpipreg, Wecsvc, UCPD (+ UCPD task); edgeupdate → manual, condrv → auto | ReviOS | ✅ | ❌ |
 | Search indexing minimal (`search-indexing.yml`) | Rebuilds index limited to Start Menu only, no user folders | Atlas OS | ✅ | ✅ |
+| Power plan (`power-plan.yml`) | Atlas power scheme clone (Ultimate Performance base, CPU min softened to 15%, display off after 15 min), Fast Startup off (`HiberbootEnabled = 0`) | Atlas OS + wtweaks | ✅ | ❌ |
+| Mitigations off (`disable-mitigations.yml`) | Disables Spectre/Meltdown, SEHOP, CFG, DEP mitigations (reboot to fully apply) | Atlas OS | ✅ | ❌ |
 
-## Privacy & Search
-
-| Tweak (task file) | What it does | Source | Full | Lite |
-|---|---|---|---|---|
-| Bing / web search off (`disable-bing-search.yml`) | No Bing, cloud search, location in search, no search suggestions; taskbar search in icon mode | Atlas OS | ✅ | ✅ |
-
-## Explorer & Start QoL
+## QoL
 
 | Tweak (task file) | What it does | Source | Full | Lite |
 |---|---|---|---|---|
@@ -45,42 +42,39 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 | No recent / frequent (`hide-frequently-used-items.yml`) | `ShowFrequent / ShowRecent = 0`, no docs history, no remote jump lists, clear on exit | Atlas OS | ✅ | ✅ |
 | No "Recently added" (`hide-recently-added-start-menu.yml`) | `HideRecentlyAddedApps = 1` in Start | Atlas OS | ✅ | ✅ |
 | Start recommendations off (`disable-start-recommendations.yml`) | No tips, shortcuts, new-app promos, account notifications (`Start_IrisRecommendations`, `Start_AccountNotifications`) | Atlas OS | ✅ | ✅ |
+| Setup suggestions off (`disable-scoobe.yml`) | No "Get even more out of Windows" prompt (`ScoobeSystemSettingEnabled = 0`) | Atlas OS | ✅ | ❌ |
+| Bing / web search off (`disable-bing-search.yml`) | No Bing, cloud search, location in search, no search suggestions; taskbar search in icon mode | Atlas OS | ✅ | ✅ |
 | Aero Shake off (`disable-aero-shake.yml`) | `DisallowShaking = 1` | Atlas OS | ✅ | ✅ |
 | No network prompt (`disable-network-wizard.yml`) | Suppresses the network discoverability popup (`NewNetworkWindowOff`) | Atlas OS | ✅ | ✅ |
+| Meet Now hidden (`hide-meet-now.yml`) | Hides the Meet Now tray icon (`HideSCAMeetNow = 1`) | Atlas OS | ✅ | ❌ |
+| Security tray icon hidden (`hide-security-tray-icon.yml`) | Removes the Windows Security systray autostart (`SecurityHealth` Run value) | Atlas OS | ✅ | ❌ |
 | Mouse acceleration off (`disable-mouse-accel.yml`) | 1:1 movement (`MouseSpeed / Threshold1 / Threshold2 = 0`) | Atlas OS | ✅ | ✅ |
 | Instant menus (`disable-menu-delay.yml`) | `MenuShowDelay = 0` | Atlas OS | ✅ | ✅ |
 | No startup delay (`disable-startup-delay.yml`) | `StartupDelayInMSec = 0` | Atlas OS | ✅ | ✅ |
 | Fast shutdown (`decrease-shutdown-time.yml`) | `HungAppTimeout / WaitToKillApp / WaitToKillServiceTimeout = 2000` | Atlas OS | ✅ | ✅ |
-
-## Updates & Store
-
-| Tweak (task file) | What it does | Source | Full | Lite |
-|---|---|---|---|---|
 | Auto-download off (`disable-auto-updates.yml`) | WU `AUOptions = 2` (notify instead of auto-download) | Atlas OS | ✅ | ✅ |
 | Delivery Optimization off (`disable-delivery-optimization.yml`) | `DODownloadMode = 0`, no P2P upload | Atlas OS | ✅ | ✅ |
 | Store auto-updates off (`disable-store-auto-updates.yml`) | Manual Store updates (`AutoDownload = 2`) | Atlas OS | ✅ | ❌ |
 | Release pinned (`pin-windows-release.yml`) | `TargetReleaseVersion`, no silent feature upgrades | Atlas OS | ✅ | ❌ |
 | Updates paused (`pause-updates.yml`) | All update branches paused until `2077-01-01`, `FlightSettingsMaxPauseDays = 18400` | ReviOS | ✅ | ❌ |
-| PSReadLine updated (`update-psreadline.yml`) | Updates the outdated Win10 PSReadLine module (needs internet) | wtweaks | ✅ | ✅ |
-
-## Look & feel
-
-| Tweak (task file) | What it does | Source | Full | Lite |
-|---|---|---|---|---|
-| Atlas appearance (`appearance.yml`) | Atlas dark wallpaper + lockscreen, dark mode, `#4A51A8` / `#4A51A8`-family accent, Atlas dark theme, lockscreen overlays off | Atlas OS | ✅ | ❌ |
+| Atlas appearance (`appearance.yml`) | Atlas dark wallpaper + lockscreen, dark mode, `#4A51A8`-family accent, Atlas dark theme, lockscreen overlays off | Atlas OS | ✅ | ❌ |
 | Lockscreen blur off (`disable-lockscreen-blur.yml`) | Sharp logon background (`DisableAcrylicBackgroundOnLogon = 1`) | wtweaks | ✅ | ✅ |
 | OEM branding (`oem-info.yml`) | OEM model branded as `wtweaks` (Lite: `wtweaks lite`) | wtweaks | ✅ | ✅ |
-| Explorer restart (`restart-explorer.yml`) | Restarts Explorer so everything applies immediately | Atlas OS | ✅ | ✅ |
 
-## Power & Security (Full only)
+## Security (Full only, Defender option)
 
 | Tweak (task file) | What it does | Source | Full | Lite |
 |---|---|---|---|---|
-| Power plan (`power-plan.yml`) | Atlas power scheme clone (Ultimate Performance base, CPU min softened to 15%, display off after 15 min), Fast Startup off (`HiberbootEnabled = 0`) | Atlas OS + wtweaks | ✅ | ❌ |
-| Mitigations off (`disable-mitigations.yml`) | Disables Spectre/Meltdown, SEHOP, CFG, DEP mitigations (reboot to fully apply) | Atlas OS | ✅ | ❌ |
-| Defender off (`disable-defender.yml`) | Policy-level disable (optional): Defender AV/spyware/RTP/behavior policies, WinDefend/WdNisSvc/Sense/wscsvc disabled, SmartScreen off, SecurityHealth removed from startup, 4 Defender scheduled tasks off, PUA protection off 🔘 | Atlas OS + ReviOS | 🔘 | ❌ |
+| Defender removed (`disable-defender.yml`) | Installs the Atlas NoDefender CBS package via `Install-DefenderPackage.ps1` (TrustedInstaller, cert-checked) when Disable is chosen; uninstalls it back when Enable is chosen 🔘 | Atlas OS | 🔘 | ❌ |
+| Unused Security pages hidden (`hide-unused-security-pages.yml`) | Hides Family options, Device performance & health and Account protection pages (`UILockdown = 1`), applied together with Defender removal 🔘 | Atlas OS | 🔘 | ❌ |
+
+## Final
+
+| Tweak (task file) | What it does | Source | Full | Lite |
+|---|---|---|---|---|
+| Explorer restart (`restart-explorer.yml`) | Restarts Explorer so everything applies immediately | Atlas OS | ✅ | ✅ |
 
 ## Counts
 
-- Full: 41 tasks (all of the above, in `Configuration/main.yml` order).
-- Lite: 25 tasks — Game Bar, search indexing, Bing, Content Delivery, all 17 Explorer/Start QoL rows above except Store/release/pause/appearance, plus lockscreen blur, OEM (`wtweaks lite`), PSReadLine and Explorer restart. No options pages, no reboot needed.
+- Full: 45 tasks (all of the above, in `Configuration/main.yml` order).
+- Lite: 25 tasks — Game Bar, search indexing, Content Delivery, Bing, the Explorer/Start QoL block except setup suggestions / Meet Now / security tray icon, plus mouse/menus/shutdown speedups, notify-style updates with Delivery Optimization off, lockscreen blur off, OEM (`wtweaks lite`), PSReadLine and Explorer restart. No options pages, no reboot needed.
