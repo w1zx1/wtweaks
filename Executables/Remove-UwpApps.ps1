@@ -5,7 +5,7 @@
 # Failures AND hangs are isolated per app: one stubborn package never stops
 # the rest (each removal runs as a job with a timeout, like Win11Debloat does).
 
-$perAppTimeoutSeconds = 120
+$perAppTimeoutSeconds = 60
 
 $removeList = @(
     # AppX Microsoft Teams (legacy)
@@ -51,22 +51,33 @@ $removeList = @(
 )
 
 $removeOneApp = {
-    param ([string]$app)
-    $pattern = "*$app*"
-    $packages = @(Get-AppxPackage -Name $pattern -AllUsers -EA Stop)
-    foreach ($package in $packages) {
-        Remove-AppxPackage -Package $package.PackageFullName -AllUsers -EA Stop
+    param ([string]$app, [string[]]$packageFullNames, [string[]]$provisionedNames)
+    foreach ($fullName in $packageFullNames) {
+        Remove-AppxPackage -Package $fullName -AllUsers -EA SilentlyContinue
     }
-    $provisioned = @(Get-AppxProvisionedPackage -Online -EA Stop | Where-Object { $_.PackageName -like $pattern })
-    foreach ($package in $provisioned) {
-        Remove-ProvisionedAppxPackage -Online -AllUsers -PackageName $package.PackageName -EA Stop
+    foreach ($name in $provisionedNames) {
+        Remove-ProvisionedAppxPackage -Online -AllUsers -PackageName $name -EA SilentlyContinue | Out-Null
     }
-    return "Removed $app (packages: $($packages.Count), provisioned: $($provisioned.Count))"
+    return "Removed $app (packages: $($packageFullNames.Count), provisioned: $($provisionedNames.Count))"
 }
 
+# Single inventory upfront: per-app DISM/Appx enumeration is what made this slow
+Write-Output 'Listing installed and provisioned packages...'
+$allPackages = @(Get-AppxPackage -AllUsers -EA SilentlyContinue)
+$allProvisioned = @(Get-AppxProvisionedPackage -Online -EA SilentlyContinue)
+
 $failures = @()
+$removedCounts = @{}
 foreach ($app in $removeList) {
-    $job = Start-Job -ScriptBlock $removeOneApp -ArgumentList $app
+    $pattern = "*$app*"
+    $packageFullNames = @($allPackages | Where-Object { $_.Name -like $pattern } | Select-Object -ExpandProperty PackageFullName)
+    $provisionedNames = @($allProvisioned | Where-Object { $_.PackageName -like $pattern } | Select-Object -ExpandProperty PackageName)
+    $removedCounts[$app] = @($packageFullNames.Count, $provisionedNames.Count)
+    if (($packageFullNames.Count -eq 0) -and ($provisionedNames.Count -eq 0)) {
+        Write-Output "Removed $app (packages: 0, provisioned: 0)"
+        continue
+    }
+    $job = Start-Job -ScriptBlock $removeOneApp -ArgumentList $app, $packageFullNames, $provisionedNames
     if (Wait-Job $job -Timeout $perAppTimeoutSeconds) {
         $result = Receive-Job $job
         if ($job.State -eq 'Failed') {
@@ -82,6 +93,21 @@ foreach ($app in $removeList) {
     }
     Stop-Job $job -EA 0 | Out-Null
     Remove-Job $job -Force -EA 0
+}
+
+# Single verification pass at the end instead of re-querying per app
+Write-Output 'Verifying removal...'
+$checkPackages = @(Get-AppxPackage -AllUsers -EA SilentlyContinue)
+$checkProvisioned = @(Get-AppxProvisionedPackage -Online -EA SilentlyContinue)
+foreach ($app in $removeList) {
+    if ($failures -contains $app) { continue }
+    $pattern = "*$app*"
+    $stillThere = @($checkPackages | Where-Object { $_.Name -like $pattern }).Count
+    $stillProv = @($checkProvisioned | Where-Object { $_.PackageName -like $pattern }).Count
+    if (($stillThere -ne 0) -or ($stillProv -ne 0)) {
+        Write-Output "Failed to remove $app : still present ($stillThere packages, $stillProv provisioned)"
+        $failures += $app
+    }
 }
 
 if ($failures.Count -gt 0) {
