@@ -43,9 +43,12 @@ actions:
   - !task: {path: 'Tasks/hide-frequently-used-items.yml'}
   - !task: {path: 'Tasks/hide-recently-added-start-menu.yml'}
   - !task: {path: 'Tasks/disable-start-recommendations.yml'}
+  - !task: {path: 'Tasks/disable-scoobe.yml'}
   - !task: {path: 'Tasks/disable-bing-search.yml'}
   - !task: {path: 'Tasks/disable-aero-shake.yml'}
   - !task: {path: 'Tasks/disable-network-wizard.yml'}
+  - !task: {path: 'Tasks/hide-meet-now.yml'}
+  - !task: {path: 'Tasks/hide-security-tray-icon.yml'}
   - !task: {path: 'Tasks/disable-mouse-accel.yml'}
   - !task: {path: 'Tasks/disable-menu-delay.yml'}
   - !task: {path: 'Tasks/disable-startup-delay.yml'}

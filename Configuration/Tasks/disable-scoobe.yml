@@ -1,0 +1,9 @@
+---
+title: Disable Device Setup Suggestions
+description: Disables the 'Get even more out of Windows' setup suggestions prompt (Atlas OS)
+actions:
+  - !registryValue:
+    path: 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\UserProfileEngagement'
+    value: 'ScoobeSystemSettingEnabled'
+    data: '0'
+    type: REG_DWORD

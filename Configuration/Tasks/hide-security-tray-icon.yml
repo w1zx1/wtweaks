@@ -1,0 +1,5 @@
+---
+title: Hide Security Tray Icon
+description: Removes Windows Security systray icon autostart (Atlas OS)
+actions:
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run', value: 'SecurityHealth', operation: delete}
