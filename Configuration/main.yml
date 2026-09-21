@@ -7,9 +7,11 @@ actions:
   - !task: {path: 'Tasks/remove-uwp-apps.yml'}
   - !writeStatus: {status: 'Removing Microsoft Edge'}
   - !task: {path: 'Tasks/remove-edge.yml'}
+  - !writeStatus: {status: 'Removing OneDrive'}
   - !task: {path: 'Tasks/remove-onedrive.yml'}
   - !writeStatus: {status: 'Clearing Start Menu'}
   - !task: {path: 'Tasks/clear-start-menu.yml'}
+  - !writeStatus: {status: 'Disabling Content Delivery'}
   - !task: {path: 'Tasks/disable-content-delivery.yml'}
   - !writeStatus: {status: 'Installing Firefox', option: 'browser-firefox'}
   - !writeStatus: {status: 'Installing Chrome', option: 'browser-chrome'}
@@ -26,12 +28,9 @@ actions:
   - !task: {path: 'Tasks/disable-game-bar.yml'}
   - !task: {path: 'Tasks/disable-background-apps.yml'}
   - !task: {path: 'Tasks/disable-services.yml'}
-  - !writeStatus: {status: 'Configuring search indexing'}
   - !task: {path: 'Tasks/search-indexing.yml'}
-
-  # Privacy
-  - !writeStatus: {status: 'Running privacy tweaks'}
-  - !task: {path: 'Tasks/disable-bing-search.yml'}
+  - !task: {path: 'Tasks/power-plan.yml'}
+  - !task: {path: 'Tasks/disable-mitigations.yml'}
 
   # QoL
   - !writeStatus: {status: 'Running QoL tweaks'}
@@ -44,6 +43,7 @@ actions:
   - !task: {path: 'Tasks/hide-frequently-used-items.yml'}
   - !task: {path: 'Tasks/hide-recently-added-start-menu.yml'}
   - !task: {path: 'Tasks/disable-start-recommendations.yml'}
+  - !task: {path: 'Tasks/disable-bing-search.yml'}
   - !task: {path: 'Tasks/disable-aero-shake.yml'}
   - !task: {path: 'Tasks/disable-network-wizard.yml'}
   - !task: {path: 'Tasks/disable-mouse-accel.yml'}
@@ -59,13 +59,8 @@ actions:
   - !task: {path: 'Tasks/disable-lockscreen-blur.yml'}
   - !task: {path: 'Tasks/oem-info.yml'}
 
-  # Scripts
-  - !writeStatus: {status: 'Running scripts'}
-  - !task: {path: 'Tasks/power-plan.yml'}
-  - !task: {path: 'Tasks/disable-mitigations.yml'}
-
   # Security
-  - !writeStatus: {status: 'Running security tweaks'}
+  - !writeStatus: {status: 'Disabling Defender'}
   - !task: {path: 'Tasks/disable-defender.yml'}
 
   - !writeStatus: {status: 'Restarting Explorer'}
