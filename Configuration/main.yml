@@ -60,8 +60,9 @@ actions:
   - !task: {path: 'Tasks/oem-info.yml'}
 
   # Security
-  - !writeStatus: {status: 'Disabling Defender'}
+  - !writeStatus: {status: 'Disabling Defender', option: 'defender-disable'}
   - !task: {path: 'Tasks/disable-defender.yml'}
+  - !task: {path: 'Tasks/hide-unused-security-pages.yml', option: 'defender-disable'}
 
   - !writeStatus: {status: 'Restarting Explorer'}
   - !task: {path: 'Tasks/restart-explorer.yml'}
