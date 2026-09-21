@@ -3,6 +3,12 @@ title: Update PSReadLine
 description: Updates the outdated built-in PSReadLine module on Windows 10
 actions:
   - !powerShell:
-    command: "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser; Install-Module -Name PSReadLine -Scope CurrentUser -Force -SkipPublisherCheck -AllowClobber"
+    # Unblock-File: Install-Module can leave Zone.Identifier (MOTW) on the
+    # downloaded files depending on the host/proxy. With MOTW, first import
+    # shows an untrusted-publisher prompt for PSReadLine.format.ps1xml, and
+    # the module DLL then refuses to load ("Failed to load PSReadline")
+    # permanently, even after trusting the publisher. Unblocking fixes both.
+    command: |
+      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser; Install-Module -Name PSReadLine -Scope CurrentUser -Force -SkipPublisherCheck -AllowClobber; Get-ChildItem -Path (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'WindowsPowerShell\Modules\PSReadLine') -Recurse -ErrorAction SilentlyContinue | Unblock-File
     wait: true
     runas: currentUserElevated
