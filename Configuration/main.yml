@@ -28,6 +28,7 @@ actions:
   - !task: {path: 'Tasks/disable-game-bar.yml'}
   - !task: {path: 'Tasks/disable-background-apps.yml'}
   - !task: {path: 'Tasks/disable-services.yml'}
+  - !task: {path: 'Tasks/disable-service-host-split.yml'}
   - !task: {path: 'Tasks/search-indexing.yml'}
   - !task: {path: 'Tasks/disable-auto-folder-discovery.yml'}
   - !task: {path: 'Tasks/power-plan.yml'}
