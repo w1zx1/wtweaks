@@ -17,19 +17,15 @@ $sys32 = [Environment]::GetFolderPath('System')
 $shell = New-Object -Com WScript.Shell
 # NOTE (wtweaks): AtlasModules init removed, only needed for interactive prompts.
 
-# Get Bluetooth path
+# Get Bluetooth and Fax paths. There can be several .lnk per target
+# (e.g. English + localized names), so accumulate all matches instead of
+# overwriting - otherwise only one of the duplicates gets hidden.
 foreach ($lnk in (($sendTo | Where-Object { $_.Extension -eq ".lnk" }).FullName)) {
     $target = $shell.CreateShortcut($lnk).TargetPath
     if ($target -eq "$sys32\fsquirt.exe") {
-        $items["Bluetooth"] = $lnk
-        $blueFound = $true
+        $items["Bluetooth"] = @($items["Bluetooth"]) + $lnk | Where-Object { $_ }
     } elseif ($target -eq "$sys32\WFS.exe") {
-        $items["Fax recipient"] = $lnk
-        $faxFound = $true
-    }
-
-    if ($faxFound -and $blueFound) {
-        break
+        $items["Fax recipient"] = @($items["Fax recipient"]) + $lnk | Where-Object { $_ }
     }
 }
 
@@ -44,13 +40,19 @@ foreach ($ext in @{
     if ($path) { $items[$ext.Key] = $path.FullName }
 }
 
-# Enable/disable functions
+# Enable/disable functions. Values are either a path string, a list of path
+# strings (several .lnk matched one item), or a scriptblock pair where the
+# first value disables and the second enables (Removable Drives).
 function EnableSendTo($value) {
     if ($value -is [string]) {
         $item = Get-Item -LiteralPath $value -Force
         $item.Attributes = $item.Attributes -band -bnot [System.IO.FileAttributes]::Hidden
     } elseif ($value -is [array]) {
-        & $value[1] | Out-Null
+        if ($value[0] -is [scriptblock]) {
+            & $value[1] | Out-Null
+        } else {
+            foreach ($path in $value) { EnableSendTo $path }
+        }
     }
 }
 function DisableSendTo($value) {
@@ -58,7 +60,11 @@ function DisableSendTo($value) {
         $item = Get-Item -LiteralPath $value -Force
         $item.Attributes = $item.Attributes -bor [System.IO.FileAttributes]::Hidden
     } elseif ($value -is [array]) {
-        & $value[0] | Out-Null
+        if ($value[0] -is [scriptblock]) {
+            & $value[0] | Out-Null
+        } else {
+            foreach ($path in $value) { DisableSendTo $path }
+        }
     }
 }
 
