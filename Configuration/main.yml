@@ -16,8 +16,8 @@ actions:
   - !task: {path: 'Tasks/install-browser.yml'}
   - !writeStatus: {status: 'Configuring Taskbar Pins'}
   - !task: {path: 'Tasks/config-pins.yml'}
-  - !writeStatus: {status: 'Installing Visual C++ Runtimes'}
-  - !task: {path: 'Tasks/install-vcredist.yml'}
+  - !writeStatus: {status: 'Installing Visual C++ Runtimes', option: 'install-vcredist'}
+  - !task: {path: 'Tasks/install-vcredist.yml', option: 'install-vcredist'}
   - !writeStatus: {status: 'Updating PSReadLine'}
   - !task: {path: 'Tasks/update-psreadline.yml'}
 
