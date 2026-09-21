@@ -36,7 +36,7 @@ It ports hand-picked tweaks from **Atlas OS (0.4.1)** and the **ReviOS playbook*
 
 ### ✅ Usability first
 
-wtweaks configures many aspects of the interface to make Windows easier to use: This PC as the Explorer home, no sidebar clutter or drive duplicates, clean Start menu without recommendations, setup prompts and dead tiles, no Meet Now or Security tray clutter, instant menus, verbose transfer details, debloated Send-To, no Aero Shake or lockscreen blur surprises.
+wtweaks configures the interface to make Windows easier to use: a clean This PC and sidebar, a quiet Start menu, visible files, instant menus and sensible Explorer defaults — details in [TWEAKS.md](TWEAKS.md).
 
 ### 🔒 Private without breaking things
 
@@ -60,14 +60,14 @@ As wtweaks doesn't redistribute a modified Windows ISO, it complies with the Mic
 
 | | Full (`wtweaks_0.1.0.apbx`) | Lite (`wtweaks_0.1.0-lite.apbx`) |
 |---|---|---|
-| Explorer / Start QoL | ✅ (all) | ✅ (most — without setup suggestions, Meet Now, Security tray icon) |
+| Explorer / Start QoL | ✅ | ✅ (subset) |
 | Light debloat & privacy (Bing, Content Delivery, Game Bar, indexing, updates notify) | ✅ | ✅ |
 | Heavy debloat (UWP, Edge, OneDrive, taskbar pins, optional browser / VC++ runtimes) | ✅ | ❌ |
 | System hardening (mitigations off, Fast Startup off, services, updates paused to 2077, power scheme, Defender option) | ✅ | ❌ |
 | Options pages (Defender, browser choice, VC++ checkbox) | ✅ | ❌ |
 | Reboot needed | yes, for mitigations / Fast Startup / services | no |
 
-Lite is the QoL subset: clean This PC and sidebar, Quick Access and Start cleanup, Game Bar off, Start-menu-only indexing, no recommendations / Shake / discoverability prompt / Bing / Content Delivery, notify-style updates with Delivery Optimization off, transfer details + Send-To cleanup, 1:1 mouse, instant menus with no startup delay and fast shutdown, no lockscreen blur, wtweaks lite OEM branding, updated PSReadLine. Setup suggestions, Meet Now and the Security tray icon tweaks are Full-only.
+Lite is the QoL subset with no hardening and no options pages — the exact per-task breakdown for both variants is in [TWEAKS.md](TWEAKS.md).
 
 ## 🚀 Installation
 
@@ -81,28 +81,28 @@ Lite is the QoL subset: clean This PC and sidebar, Quick Access and Start cleanu
 
 ## 🧰 What's included
 
-Grouped summary — see [TWEAKS.md](TWEAKS.md) for the full per-task list (45 Full / 25 Lite). Full includes everything below, Lite includes only rows marked Lite.
+Grouped summary — the full per-task list (49 Full / 25 Lite) lives in [TWEAKS.md](TWEAKS.md).
 
-| Category | Tweaks | Source | Lite |
+| Category | In short | Source | Lite |
 |---|---|---|---|
-| Explorer & Start | Hide 7 folders from This PC, open to This PC, no sidebar drive duplicates, no Network item, no recent/frequent + jump lists, no "Recently added", no recommendations or setup suggestions, Meet Now and Security tray icons hidden, transfer details on, debloated Send-To | Atlas OS | mostly* |
-| Debloat | ~35 UWP families removed for all users + deprovisioned (Win11Debloat-style engine, incl. Yandex Music), Edge removed, OneDrive removed, Start tiles cleared, optional Firefox/Chrome install, VC++ Runtimes 2005–2022 (checkbox, on by default), background apps off, Store auto-updates off, taskbar pins reset | Atlas OS | ❌ |
-| Privacy & Updates | Bing/web search off, Content Delivery off, release pinned (no feature upgrades), auto-download off + Delivery Optimization off, updates paused until `2077-01-01` | Atlas OS + ReviOS | partially* |
-| Performance & Hardware | Start-menu-only indexing, 1:1 mouse, instant menus + no startup delay + fast shutdown, Game Bar off, Aero Shake off, Atlas power scheme (CPU min 15%, display off after 15 min), Fast Startup off, mitigations off, 16 services tuned | Atlas OS + ReviOS | partially* |
-| Look & Feel | Atlas dark wallpaper + lockscreen, dark mode, `#4A51A8` accent, no lockscreen blur, wtweaks OEM branding, updated PSReadLine, Explorer restart to apply | Atlas OS + wtweaks | partially* |
-| Security option | Defender removed via the Atlas NoDefender CBS package + unused Security pages hidden (optional, Full only) | Atlas OS | ❌ |
-
-\* Lite includes Game Bar off, Start-only indexing, mouse/menus/shutdown speedups, recommendations/Shake/discoverability/Bing/Content Delivery off, notify-style updates, no lockscreen blur, lite OEM branding and PSReadLine — but not setup suggestions, Meet Now, the Security tray icon, Store/release/pause/appearance, the power scheme, mitigations, services or Defender option.
+| Explorer & Start | Clean This PC, sidebar and Start, visible files and extensions, sensible Explorer defaults | Atlas OS | subset |
+| Debloat | UWP/Edge/OneDrive removal + deprovision, cleared Start tiles, optional browser and runtimes, taskbar pins | Atlas OS | ❌ |
+| Privacy & Updates | No web search or ads, notify-style updates, release pinned, updates paused to 2077 | Atlas OS + ReviOS | subset |
+| Performance & Hardware | Minimal indexing, 1:1 mouse, instant menus, Game Bar off, Atlas power scheme, mitigations off, tuned services | Atlas OS + ReviOS | subset |
+| Look & Feel | Atlas dark theme and lockscreen, sharp logon background, wtweaks branding, fresh PSReadLine | Atlas OS + wtweaks | subset |
+| Security option | Defender removal via the Atlas CBS package (optional) | Atlas OS | ❌ |
 
 ## 🔧 Differences from upstream
 
 Tweaks are ported 1:1 unless noted here:
 
-- **No option screens for removals.** Atlas and ReviOS gate removals behind choices (`uninstall-edge`, `remove-snipping-tool`, …). Here Edge, OneDrive and Snipping Tool are always removed and the Start layout is always cleared; only browser install, Defender and VC++ runtimes are optional.
-- **UWP removal engine.** The removal list is the Atlas list plus Yandex Music, but the engine is wtweaks' own `Remove-UwpApps.ps1` (inspired by Win11Debloat, MIT): one inventory pass, per-app jobs with timeouts, removal for all users plus provisioned packages — faster and reinstallation-proof, instead of one `!appx` call per package.
-- **Start menu cleanup trimmed to tiles.** Atlas' `STARTMENU.ps1` port applies only the empty tile layout and drops the tilegrid database. App-list ghost cleanup is skipped on purpose: the AllUsers removal above already takes it with it.
-- **Defender removal is the Atlas CBS package.** Instead of policy/service toggles, Disable installs the Atlas NoDefender CBS package via a trimmed `packageInstall.ps1` port (TrustedInstaller, cert-checked, non-interactive — Safe Mode fallback and UI prompts left out), and Enable cleanly uninstalls it back. Unused Security pages (Family, Device health, Account protection) are hidden alongside via `UILockdown`.
-- **Pause dates.** ReviOS uses end `2038-01-19T03:14:07Z`, `FlightSettingsMaxPauseDays = 5269`, start `2023-08-17T12:47:51Z`. Here: end `2077-01-01T00:00:00Z`, `FlightSettingsMaxPauseDays = 18400`, start `2026-09-19T00:00:00Z`.
+- **No option screens for removals.** Atlas and ReviOS gate removals behind choices (`uninstall-edge`, `remove-snipping-tool`, …). Here Edge, OneDrive and Snipping Tool are always removed and the Start layout is always cleared; only browser, Defender and VC++ runtimes are optional.
+- **UWP removal engine.** Atlas list plus Yandex Music, but removed by wtweaks' own `Remove-UwpApps.ps1` (Win11Debloat-inspired, MIT): one inventory pass, per-app jobs with timeouts, AllUsers plus provisioned packages — faster than one `!appx` call per package.
+- **Start menu cleanup trimmed to tiles.** The Atlas `STARTMENU.ps1` port applies only the empty tile layout and drops the tilegrid database — app-list cleanup is redundant after the AllUsers removal above.
+- **Home pins: videos only.** After recent-files cleanup hides them, Atlas re-pins Music and Videos; here only Videos is pinned back.
+- **Folder discovery: NotSpecified instead of delete.** Atlas deletes `FolderType` via `.reg` (its direct write stays commented out over an AME hives issue); here the documented disable value is set directly.
+- **Defender removal is the Atlas CBS package, trimmed.** Disable installs the Atlas NoDefender package via a trimmed `packageInstall.ps1` port (TrustedInstaller, cert-checked, no Safe Mode fallback or UI prompts); Enable uninstalls it back. Unused Security pages (Family, Device health, Account protection) are hidden alongside via `UILockdown`.
+- **Pause dates.** End `2077-01-01` (start `2026-09-19`), `FlightSettingsMaxPauseDays = 18400` — instead of ReviOS' `2038-01-19` / `5269`.
 - **Power scheme softening.** On top of the untouched Atlas `DisablePowerSaving.ps1`: CPU min 15% instead of 100%, display off after 15 min instead of never.
 - **Browser choice.** Image tiles like Atlas, but only Firefox and Chrome; Firefox is the default, no Chrome warning.
 

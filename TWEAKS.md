@@ -1,6 +1,6 @@
 # wtweaks — full tweak list
 
-Full (`wtweaks_0.1.0.apbx`) — 45 tasks in apply order. Lite (`wtweaks_0.1.0-lite.apbx`) — 25 tasks (QoL subset + Explorer restart).
+Full (`wtweaks_0.1.0.apbx`) — 49 tasks in apply order. Lite (`wtweaks_0.1.0-lite.apbx`) — 25 tasks (QoL subset + Explorer restart).
 
 Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 
@@ -16,7 +16,7 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 | Browser install (`install-browser.yml`) | Installs the browser picked on the options page (Firefox default, or Chrome, or None) 🔘 | Atlas OS | 🔘 | ❌ |
 | Taskbar pins (`config-pins.yml`) | Resets taskbar pins to Explorer + chosen browser, unpins Mail/Copilot | Atlas OS | ✅ | ❌ |
 | Visual C++ Runtimes (`install-vcredist.yml`) | Installs VC++ 2005–2022 x86/x64, on by default but skippable via checkbox 🔘 | Atlas OS | 🔘 | ❌ |
-| PSReadLine updated (`update-psreadline.yml`) | Updates the outdated Win10 PSReadLine module (needs internet) | wtweaks | ✅ | ✅ |
+| PSReadLine updated (`update-psreadline.yml`) | Updates the outdated Win10 PSReadLine module, then `Unblock-File`s it so the MOTW mark can't break loading (needs internet) | wtweaks | ✅ | ✅ |
 
 ## Performance
 
@@ -26,6 +26,7 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 | Background apps off (`disable-background-apps.yml`) | `GlobalUserDisabled = 1`, no UWP background activity | Atlas OS | ✅ | ❌ |
 | Services tuning (`disable-services.yml`) | Disables/manual 16 services: dam, GpuEnergyDrv, NetBT, Telemetry, DiagHub collector, WerSvc, DiagTrack, wisvc, PcaSvc, WDI hosts, tcpipreg, Wecsvc, UCPD (+ UCPD task); edgeupdate → manual, condrv → auto | ReviOS | ✅ | ❌ |
 | Search indexing minimal (`search-indexing.yml`) | Rebuilds index limited to Start Menu only, no user folders | Atlas OS | ✅ | ✅ |
+| Auto folder discovery off (`disable-auto-folder-discovery.yml`) | No per-folder content-type sniffing in Explorer: `FolderType = NotSpecified` set directly (Atlas deletes the value via `.reg` instead) | Atlas OS, modified | ✅ | ❌ |
 | Power plan (`power-plan.yml`) | Atlas power scheme clone (Ultimate Performance base, CPU min softened to 15%, display off after 15 min), Fast Startup off (`HiberbootEnabled = 0`) | Atlas OS + wtweaks | ✅ | ❌ |
 | Mitigations off (`disable-mitigations.yml`) | Disables Spectre/Meltdown, SEHOP, CFG, DEP mitigations (reboot to fully apply) | Atlas OS | ✅ | ❌ |
 
@@ -40,6 +41,9 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 | Transfer details (`transfer-details.yml`) | Detailed file-transfer dialog by default (`EnthusiastMode`) | Atlas OS | ✅ | ✅ |
 | Send-To cleanup (`sendto-debloat.yml`) | Removes Documents / Mail / Fax / Bluetooth from Send To | Atlas OS | ✅ | ✅ |
 | No recent / frequent (`hide-frequently-used-items.yml`) | `ShowFrequent / ShowRecent = 0`, no docs history, no remote jump lists, clear on exit | Atlas OS | ✅ | ✅ |
+| Videos pinned to Home (`pin-videos-to-home.yml`) | Re-pins Videos to Home after recent-files cleanup hides it (Atlas pins Music too; here videos only) | Atlas OS, trimmed | ✅ | ❌ |
+| Show files + extensions (`show-files.yml`) | Shows hidden/system files and file extensions (`Hidden = 1`, `HideFileExt = 0`) — QoL and security | Atlas OS | ✅ | ❌ |
+| No "- Shortcut" suffix (`remove-shortcut-text.yml`) | New shortcuts keep their clean name (`ShortcutNameTemplate = "%s.lnk"`) | Atlas OS | ✅ | ❌ |
 | No "Recently added" (`hide-recently-added-start-menu.yml`) | `HideRecentlyAddedApps = 1` in Start | Atlas OS | ✅ | ✅ |
 | Start recommendations off (`disable-start-recommendations.yml`) | No tips, shortcuts, new-app promos, account notifications (`Start_IrisRecommendations`, `Start_AccountNotifications`) | Atlas OS | ✅ | ✅ |
 | Setup suggestions off (`disable-scoobe.yml`) | No "Get even more out of Windows" prompt (`ScoobeSystemSettingEnabled = 0`) | Atlas OS | ✅ | ❌ |
@@ -57,7 +61,7 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 | Store auto-updates off (`disable-store-auto-updates.yml`) | Manual Store updates (`AutoDownload = 2`) | Atlas OS | ✅ | ❌ |
 | Release pinned (`pin-windows-release.yml`) | `TargetReleaseVersion`, no silent feature upgrades | Atlas OS | ✅ | ❌ |
 | Updates paused (`pause-updates.yml`) | All update branches paused until `2077-01-01`, `FlightSettingsMaxPauseDays = 18400` | ReviOS | ✅ | ❌ |
-| Atlas appearance (`appearance.yml`) | Atlas dark wallpaper + lockscreen, dark mode, `#4A51A8`-family accent, Atlas dark theme, lockscreen overlays off | Atlas OS | ✅ | ❌ |
+| Atlas appearance (`appearance.yml`) | Atlas dark wallpaper + lockscreen via `atlas-dark.theme` (dark mode and `#4A51A8`-family accent come from the theme file itself, no registry writes), lockscreen overlays off | Atlas OS | ✅ | ❌ |
 | Lockscreen blur off (`disable-lockscreen-blur.yml`) | Sharp logon background (`DisableAcrylicBackgroundOnLogon = 1`) | wtweaks | ✅ | ✅ |
 | OEM branding (`oem-info.yml`) | OEM model branded as `wtweaks` (Lite: `wtweaks lite`) | wtweaks | ✅ | ✅ |
 
@@ -76,5 +80,5 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 
 ## Counts
 
-- Full: 45 tasks (all of the above, in `Configuration/main.yml` order).
+- Full: 49 tasks (all of the above, in `Configuration/main.yml` order).
 - Lite: 25 tasks — Game Bar, search indexing, Content Delivery, Bing, the Explorer/Start QoL block except setup suggestions / Meet Now / security tray icon, plus mouse/menus/shutdown speedups, notify-style updates with Delivery Optimization off, lockscreen blur off, OEM (`wtweaks lite`), PSReadLine and Explorer restart. No options pages, no reboot needed.
