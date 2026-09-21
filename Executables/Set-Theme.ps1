@@ -44,7 +44,7 @@ public static class ThemeManagerAPI
     }
 
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("0646EBBE-C1B7-4045-8DF0-FD65D3FC792")]
+    [Guid("0646EBBE-C1B7-4045-8FD0-FFD65D3FC792")]
     [ComImport]
     public interface IThemeManager
     {
