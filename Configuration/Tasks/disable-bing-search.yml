@@ -57,10 +57,3 @@ actions:
     value: 'DisableSearchBoxSuggestions'
     data: '1'
     type: REG_DWORD
-
-    # Set search as icon on taskbar
-  - !registryValue:
-    path: 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Search'
-    value: 'SearchboxTaskbarMode'
-    data: '1'
-    type: REG_DWORD

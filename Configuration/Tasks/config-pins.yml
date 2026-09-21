@@ -24,6 +24,13 @@ actions:
     data: '0'
     type: REG_DWORD
 
+  # Set search as icon on taskbar (moved from disable-bing-search.yml)
+  - !registryValue:
+    path: 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Search'
+    value: 'SearchboxTaskbarMode'
+    data: '1'
+    type: REG_DWORD
+
   # Set new pins (browser must already be installed, hence the order in main.yml)
   - !powerShell:
     command: '.\Set-TaskbarPins.ps1'
