@@ -16,8 +16,6 @@ actions:
   - !writeStatus: {status: 'Installing Firefox', option: 'browser-firefox'}
   - !writeStatus: {status: 'Installing Chrome', option: 'browser-chrome'}
   - !task: {path: 'Tasks/install-browser.yml'}
-  - !writeStatus: {status: 'Configuring Taskbar Pins'}
-  - !task: {path: 'Tasks/config-pins.yml'}
   - !writeStatus: {status: 'Installing Visual C++ Runtimes', option: 'install-vcredist'}
   - !task: {path: 'Tasks/install-vcredist.yml', option: 'install-vcredist'}
   - !writeStatus: {status: 'Updating PSReadLine'}
