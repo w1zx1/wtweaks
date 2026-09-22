@@ -62,7 +62,7 @@ actions:
   - !task: {path: 'Tasks/disable-store-auto-updates.yml'}
   - !task: {path: 'Tasks/pin-windows-release.yml'}
   - !task: {path: 'Tasks/pause-updates.yml'}
-  - !task: {path: 'Tasks/appearance.yml'}
+  - !task: {path: 'Tasks/appearance.yml', option: 'install-theme'}
   - !task: {path: 'Tasks/disable-lockscreen-blur.yml'}
   - !task: {path: 'Tasks/oem-info.yml'}
 
