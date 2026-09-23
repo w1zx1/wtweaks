@@ -20,8 +20,6 @@ actions:
   - !task: {path: 'Tasks/install-browser.yml'}
   - !writeStatus: {status: 'Installing Visual C++ Runtimes', option: 'install-vcredist'}
   - !task: {path: 'Tasks/install-vcredist.yml', option: 'install-vcredist'}
-  - !writeStatus: {status: 'Updating PSReadLine'}
-  - !task: {path: 'Tasks/update-psreadline.yml'}
 
   # Performance
   - !writeStatus: {status: 'Running performance tweaks'}
@@ -35,6 +33,8 @@ actions:
   - !task: {path: 'Tasks/disable-mitigations.yml'}
 
   # Fixes
+  - !writeStatus: {status: 'Updating PSReadLine'}
+  - !task: {path: 'Tasks/update-psreadline.yml'}
   - !writeStatus: {status: 'Disabling WSLg'}
   - !task: {path: 'Tasks/disable-wslg.yml'}
 

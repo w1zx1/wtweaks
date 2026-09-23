@@ -16,7 +16,6 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 | Content Delivery off (`disable-content-delivery.yml`) | Disables Content Delivery Manager: suggested apps, Tips, ads, silent installs, preinstalled OEM apps, lockscreen overlay promos, Start account notifications | ✅ | ✅ |
 | Browser install (`install-browser.yml`) | Installs the browser picked on the options page (Firefox default, or Chrome, or None) 🔘 | 🔘 | ❌ |
 | Visual C++ Runtimes (`install-vcredist.yml`) | Installs VC++ 2005–2022 x86/x64, on by default but skippable via checkbox 🔘 | 🔘 | ❌ |
-| PSReadLine updated (`update-psreadline.yml`) | Updates the outdated Win10 PSReadLine module, then `Unblock-File`s it so the MOTW mark can't break loading (needs internet) | ✅ | ✅ |
 
 ## Performance
 
@@ -35,6 +34,7 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 
 | Tweak (task file) | What it does | Full | Lite |
 |---|---|---|---|
+| PSReadLine updated (`update-psreadline.yml`) | Updates the outdated Win10 PSReadLine module, then `Unblock-File`s it so the MOTW mark can't break loading (needs internet) | ✅ | ✅ |
 | WSLg off (`disable-wslg.yml`) | Disables WSLg Linux GUI (`guiApplications=false` in `%USERPROFILE%\.wslconfig`), fixing the infinite RDP error loop on Docker Desktop start | ✅ | ❌ |
 
 ## QoL
