@@ -32,6 +32,10 @@ actions:
   - !task: {path: 'Tasks/power-plan.yml'}
   - !task: {path: 'Tasks/disable-mitigations.yml'}
 
+  # Fixes
+  - !writeStatus: {status: 'Disabling WSLg'}
+  - !task: {path: 'Tasks/disable-wslg.yml'}
+
   # QoL
   - !writeStatus: {status: 'Running QoL tweaks'}
   - !task: {path: 'Tasks/hide-folders-this-pc.yml'}

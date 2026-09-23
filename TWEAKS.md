@@ -1,6 +1,6 @@
 # wtweaks — full tweak list
 
-Full (`wtweaks_0.1.0.apbx`) — 50 tasks in apply order. Lite (`wtweaks_0.1.0-lite.apbx`) — 25 tasks (QoL subset + Explorer restart).
+Full (`wtweaks_0.1.0.apbx`) — 51 tasks in apply order. Lite (`wtweaks_0.1.0-lite.apbx`) — 25 tasks (QoL subset + Explorer restart).
 
 Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 
@@ -29,6 +29,12 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 | Auto folder discovery off (`disable-auto-folder-discovery.yml`) | No per-folder content-type sniffing in Explorer: `FolderType = NotSpecified` set directly | ✅ | ❌ |
 | Power plan (`power-plan.yml`) | Custom power scheme (Ultimate Performance base, CPU min 15%, display off after 15 min), Fast Startup off (`HiberbootEnabled = 0`) | ✅ | ❌ |
 | Mitigations off (`disable-mitigations.yml`) | Disables Spectre/Meltdown, SEHOP, CFG, DEP mitigations (reboot to fully apply) | ✅ | ❌ |
+
+## Fixes
+
+| Tweak (task file) | What it does | Full | Lite |
+|---|---|---|---|
+| WSLg off (`disable-wslg.yml`) | Disables WSLg Linux GUI (`guiApplications=false` in `%USERPROFILE%\.wslconfig`), fixing the infinite RDP error loop on Docker Desktop start | ✅ | ❌ |
 
 ## QoL
 
@@ -81,5 +87,5 @@ Legend: ✅ included, ❌ not included, 🔘 optional (options page).
 
 ## Counts
 
-- Full: 50 tasks (all of the above, in `Configuration/main.yml` order).
+- Full: 51 tasks (all of the above, in `Configuration/main.yml` order).
 - Lite: 25 tasks — Game Bar, search indexing, Content Delivery, Bing, the ✅ Lite rows above, PSReadLine and Explorer restart. No options pages, no reboot needed.

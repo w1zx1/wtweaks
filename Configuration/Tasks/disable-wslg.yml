@@ -1,0 +1,23 @@
+---
+title: Disable WSLg
+description: Disables WSLg Linux GUI stack (guiApplications=false) to fix the infinite RDP/RemoteApp error loop when starting Docker Desktop
+actions:
+  - !powerShell:
+    command: |
+      $p = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.wslconfig'
+      if (-not (Test-Path -LiteralPath $p)) {
+        "[wsl2]`nguiApplications=false`n" | Set-Content -LiteralPath $p -Encoding Ascii
+      } else {
+        $t = Get-Content -LiteralPath $p -Raw
+        if ($t -notmatch '(?m)^\s*\[wsl2\]\s*$') {
+          Add-Content -LiteralPath $p -Value "`n[wsl2]`nguiApplications=false" -Encoding Ascii
+        } elseif ($t -match '(?mi)^\s*guiApplications\s*=.*$') {
+          (Get-Content -LiteralPath $p) -replace '(?i)^\s*guiApplications\s*=.*$', 'guiApplications=false' |
+            Set-Content -LiteralPath $p -Encoding Ascii
+        } else {
+          (Get-Content -LiteralPath $p) -replace '(?m)^(\s*\[wsl2\]\s*)$', "`$1`nguiApplications=false" |
+            Set-Content -LiteralPath $p -Encoding Ascii
+        }
+      }
+    wait: true
+    runas: currentUserElevated
