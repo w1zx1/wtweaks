@@ -58,6 +58,7 @@ actions:
   - !task: {path: 'Tasks/disable-aero-shake.yml'}
   - !task: {path: 'Tasks/disable-network-wizard.yml'}
   - !task: {path: 'Tasks/hide-meet-now.yml'}
+  - !task: {path: 'Tasks/disable-news-and-interests.yml'}
   - !task: {path: 'Tasks/hide-security-tray-icon.yml'}
   - !task: {path: 'Tasks/disable-mouse-accel.yml'}
   - !task: {path: 'Tasks/disable-menu-delay.yml'}
