@@ -77,7 +77,7 @@ Lite is the QoL subset with no hardening and no options pages — the exact per-
 
 ## 🧰 What's included
 
-Grouped summary — the full per-task list (51 Full / 25 Lite) lives in [TWEAKS.md](TWEAKS.md).
+Grouped summary — the full per-task list (52 Full / 25 Lite) lives in [TWEAKS.md](TWEAKS.md).
 
 | Category | In short | Lite |
 |---|---|---|
