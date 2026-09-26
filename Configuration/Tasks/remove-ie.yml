@@ -1,7 +1,0 @@
----
-title: Remove Internet Explorer
-description: Disables the Internet Explorer optional feature to remove its useless Start menu shortcut
-actions:
-  - !cmd:
-    command: 'DISM /Online /Disable-Feature /FeatureName:Internet-Explorer-Optional-amd64 /NoRestart'
-    wait: true

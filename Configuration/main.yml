@@ -9,8 +9,6 @@ actions:
   - !task: {path: 'Tasks/remove-edge.yml'}
   - !writeStatus: {status: 'Removing OneDrive'}
   - !task: {path: 'Tasks/remove-onedrive.yml'}
-  - !writeStatus: {status: 'Removing Internet Explorer'}
-  - !task: {path: 'Tasks/remove-ie.yml'}
   - !writeStatus: {status: 'Clearing Start Menu'}
   - !task: {path: 'Tasks/clear-start-menu.yml'}
   - !writeStatus: {status: 'Disabling Content Delivery'}
